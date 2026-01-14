@@ -105,6 +105,12 @@ DATABASES = {
     }
 }
 
+# Validate required database credentials
+required_db_vars = ['DB_NAME', 'DB_USER', 'DB_HOST', 'DB_PASSWORD']
+missing_db_vars = [var for var in required_db_vars if not os.environ.get(var)]
+if missing_db_vars:
+    raise ValueError(f"Missing required database environment variables: {', '.join(missing_db_vars)}")
+
 # Local Database
 # DATABASES = {
 #     'default': {
@@ -161,10 +167,24 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# Validate required Cloudinary credentials
+cloudinary_cloud_name = os.environ.get('CLOUDINARY_CLOUD_NAME')
+cloudinary_api_key = os.environ.get('CLOUDINARY_API_KEY')
+cloudinary_api_secret = os.environ.get('CLOUDINARY_API_SECRET')
+
+required_cloudinary_vars = {
+    'CLOUDINARY_CLOUD_NAME': cloudinary_cloud_name,
+    'CLOUDINARY_API_KEY': cloudinary_api_key,
+    'CLOUDINARY_API_SECRET': cloudinary_api_secret
+}
+missing_cloudinary_vars = [var for var, val in required_cloudinary_vars.items() if not val]
+if missing_cloudinary_vars:
+    raise ValueError(f"Missing required Cloudinary environment variables: {', '.join(missing_cloudinary_vars)}")
+
 cloudinary.config(
-    cloud_name=os.environ.get('CLOUDINARY_CLOUD_NAME'),
-    api_key=os.environ.get('CLOUDINARY_API_KEY'),
-    api_secret=os.environ.get('CLOUDINARY_API_SECRET'),
+    cloud_name=cloudinary_cloud_name,
+    api_key=cloudinary_api_key,
+    api_secret=cloudinary_api_secret,
     secure=True
 )
 

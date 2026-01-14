@@ -58,7 +58,7 @@ python manage.py runserver
 # Open http://127.0.0.1:8000/posts/
 
 # To have dummy data for testing run:
-python manage.py fixtures/dummy-data.json
+python manage.py loaddata fixtures/dummy-data.json
 ```
 
 **Security Note**: Never commit the `.env` file with actual credentials. The `.env.example` file is provided as a template.
